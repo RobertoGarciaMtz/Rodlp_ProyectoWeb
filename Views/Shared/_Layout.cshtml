@@ -1,0 +1,193 @@
+﻿@using Microsoft.AspNetCore.Http
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard - Bootstrap Admin Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="~/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
+    <link href="~/css/font-awesome.css" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <link href="~/css/pages/dashboard.css" rel="stylesheet">
+    <style>
+        ::placeholder{
+            color:black;
+            text-align: center;
+            opacity: 1;
+        }
+
+        :-ms-input-placeholder{
+            color:black;
+        }
+
+        ::-ms-input-placeholder{
+            color:black;
+        }
+
+        .ajs-input{
+            width: 100%;
+            border: 1px solid black;
+            border-radius: 5px;
+        }
+
+        .inputFilter{
+            width: 100%;
+            color: black;
+            height: 30px;
+            border: none;
+            background: #00ba8b !important;
+        }
+
+    </style>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+<body>
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                </a><a class="brand" href="index.html">Sistema de administración RODLP</a>
+                <div class="nav-collapse">
+                    <ul class="nav pull-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="icon-user"></i>@Context.Session.GetString("nomUsuario")<b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a asp-controller="Login" asp-action="Perfil">Profile</a></li>
+                                <li><a asp-controller="Login" asp-action="LogOut">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="navbar-search pull-right">
+                        <input type="text" class="search-query" placeholder="Search">
+                    </form>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /navbar-inner -->
+    </div>
+    <!-- /navbar -->
+    <div class="subnavbar">
+        <div class="subnavbar-inner">
+            <div class="container">
+                <ul class="mainnav">
+                    <li class=""><a asp-controller="Home" asp-action="Index"><i class="icon-dashboard"></i><span>Home</span> </a> </li>
+                    <li><a class="navbar-brand" asp-controller="Empresas" asp-action="Index"><i class="icon-facetime-video"></i><span>Empresas</span> </a></li>
+                    <li><a class="navbar-brand" asp-controller="GrupoMovi" asp-action="Index"><i class="icon-list-alt"></i><span>Grupos</span> </a> </li>
+                    <li><a class="navbar-brand" asp-controller="Cuentas" asp-action="Index"><i class="icon-bar-chart"></i><span>Cuentas</span> </a> </li>
+                    <li><a class="navbar-brand" asp-controller="Personas" asp-action="Index"><i class="icon-code"></i><span>Cliente/Proveedor</span> </a> </li>
+                    <li><a class="navbar-brand" asp-controller="Proyecto" asp-action="Index"><i class="icon-code"></i><span>Proyectos</span> </a> </li>
+                    <li><a class="navbar-brand" asp-controller="Movimientos" asp-action="Index"><i class="icon-code"></i><span>Movimientos</span> </a> </li>
+                    <li><a class="navbar-brand" asp-controller="Inventario" asp-action="Index"><i class="icon-code"></i><span>Inventario</span> </a> </li>
+                    <li><a class="navbar-brand" asp-controller="Facturas" asp-action="Index"><i class="icon-code"></i><span>Factura</span> </a> </li>
+                </ul>
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /subnavbar-inner -->
+    </div>
+    <!-- /subnavbar -->
+    <div class="main">
+        @RenderBody()
+        <!-- /main-inner -->
+    </div>
+    <div class="footer">
+        <div class="footer-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="span12"> &copy; 2020 <a href="#">Sistema de administración RODLP</a>. </div>
+                    <!-- /span12 -->
+                </div>
+                <!-- /row -->
+            </div>
+            <!-- /container -->
+        </div>
+        <!-- /footer-inner -->
+    </div>
+    <!-- /footer -->
+    <!-- Le javascript
+    ================================================== -->
+    <script src="~/js/jquery-1.7.2.min.js"></script>
+    <script src="~/js/excanvas.min.js"></script>
+    <script src="~/js/chart.min.js" type="text/javascript"></script>
+    <script src="~/js/bootstrap.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#tableInfo").DataTable();
+
+            var table = $("#tableMovimientos").DataTable({
+                "scrollX": true
+            });
+
+            $(document).on("click", '.alta', function (evt) {
+                var ident = $(this).val();
+                alertify.confirm("¿Seguro que desea reactivar este registro?", function () {
+                    $.get("/" + $("#controller").val() + "/Status", { id: ident }, function (event) {
+                        $("#status-" + ident + "").empty();
+                        $("<button value='" + ident + "' class='baja btn btn-success'>Activo</button>").appendTo($("#status-" + ident + ""));
+                    });
+                });
+            });
+
+            $(document).on("click", '.baja', function (evt) {
+                var ident = $(this).val();
+                alertify.confirm("¿Seguro que desea desactivar este registro?", function () {
+                    $.get("/" + $("#controller").val() + "/Status", { id: ident }, function (event) {
+                        $("#status-" + ident + "").empty();
+                        $("<button value='" + ident + "' class='alta btn btn-danger'>Inactivo</button>").appendTo($("#status-" + ident + ""));
+                    });
+                });
+
+            });
+
+        });
+
+        function aplicaIVA(){
+                var ret = document.getElementById("ret");
+                var data = "", dataS = "", dataI = "", dataT = "";
+                if( ret.checked == true ){
+                    var subt = parseFloat( document.getElementById("subt").value, 0.0 );
+                    var iva = document.getElementById("iva").value;
+                    switch(iva){
+                        case "1":
+                            iva = 0.16;
+                            break;
+                            case "2":
+                                iva = 0.15;
+                            break;
+                    }
+                    data = subt*(1+iva);
+                    dataS = subt*0.1;
+                    dataI = (subt * iva )*2/3;
+                    var ieps = parseFloat( document.getElementById("ieps").value, 0.0);
+                    var imp = parseFloat( document.getElementById("cnta").value,0.0 );
+                    var dataT = data - dataS - dataI + ieps+imp;
+                }
+                
+                document.getElementById("neto").value = data;
+                document.getElementById("ris").value = Math.round(dataS,2);
+                document.getElementById("riv").value = Math.round(dataI,2);
+                document.getElementById("tota").value = dataT;
+                
+            }
+
+    </script>
+</body>
+
+</html>

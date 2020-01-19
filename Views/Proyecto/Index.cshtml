@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<ProyectoWeb.Models.CtProyecto>
+    <div class="container">
+        <p>
+            <a class="btn btn-sm btn-success" asp-action="Create">Create New</a>
+        </p>
+        <input id="controller" type="hidden" value="Proyecto" />
+        <table id="tableInfo" class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Usuario)
+                    </th>
+                    @if (Context.Session.GetInt32("tipoUsuario") == 1)
+                    {
+                        <th>
+                            Estado
+                        </th>
+                        <th></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Usuario)
+                        </td>
+                        @if( Context.Session.GetInt32("tipoUsuario") == 1)
+                        {
+
+                        }
+                        <td id="status-@Html.DisplayFor( modelItem => item.IdProyectos )">
+                            @if (item.Status == 1)
+                            {
+                                <button value="@item.IdProyectos" class="baja btn btn-success">Activo</button>
+                            }
+                            else if (item.Status == 2)
+                            {
+                                <button value="@item.IdProyectos" class="alta btn btn-danger">Inactivo</button>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdProyectos" class="btn btn-sm btn-primary"><i class="icon-edit"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>

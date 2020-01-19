@@ -1,0 +1,116 @@
+﻿@model IEnumerable<ProyectoWeb.Models.TbPersonas>
+<div class="container">
+    <p>
+        <a class="btn btn-sm btn-success" asp-action="Create">Nuevo Cliente/Proveedor</a>
+    </p>
+    <input id="controller" type="hidden" value="Personas" />
+    <table id="tableInfo" class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </th>
+                <th>
+                    RFC
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Localidad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Municipio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Entidad)
+                </th>
+                <th>
+                    Codigo Postal
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Telefono)
+                </th>
+                <th>
+                    Correo
+                </th>
+                <th>
+                    Nombre de la empresa
+                </th>
+                <th>
+                    Tipo
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Usuario)
+                </th>
+                <th>
+                    Estado
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rfc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Direccion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Localidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Municipio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Entidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cp)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telefono)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EMail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreEmpresa)
+                    </td>
+                    <td>
+                        @if (item.ClienteProveedor == 1)
+                        {
+                            <a>Cliente</a>
+                        }
+                        else if (item.ClienteProveedor == 2)
+                        {
+                            <a>Proveedor</a>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario)
+                    </td>
+                    <td id="status-@Html.DisplayFor( modelItem => item.IdPersona )">
+                        @if (item.Status == 1)
+                        {
+                            <button value="@item.IdPersona" class="baja btn btn-success">Activo</button>
+                        }
+                        else if (item.Status == 2)
+                        {
+                            <button value="@item.IdPersona" class="alta btn btn-danger">Inactivo</button>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IdPersona" class="btn btn-sm btn-primary"><i class="icon-edit"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<ProyectoWeb.Models.TbCuentas>
+<div class="container">
+    <p>
+        <a class="btn btn-sm btn-success" asp-action="Create">Nueva cuenta</a>
+    </p>
+    <input id="controller" type="hidden" value="Cuentas" />
+    <table id="tableInfo" class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Usuario)
+                </th>
+                <th>
+                    Grupo
+                </th>
+                @if (Context.Session.GetInt32("tipoUsuario") == 1)
+                {
+                    <th>
+                        Estado
+                    </th>
+                    <th></th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GrupoNavigation.Descripcion)
+                    </td>
+                    @if( Context.Session.GetInt32("tipoUsuario") == 1)
+                    {
+                    <td id="status-@Html.DisplayFor( modelItem => item.IdCuenta )">
+                        @if (item.Status == 1)
+                        {
+                            <button value="@item.IdCuenta" class="baja btn btn-success">Activo</button>
+                        }
+                        else if (item.Status == 2)
+                        {
+                            <button value="@item.IdCuenta" class="alta btn btn-danger">Inactivo</button>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IdCuenta" class="btn btn-sm btn-primary"><i class="icon-edit"></i></a>
+                    </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

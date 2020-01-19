@@ -1,0 +1,145 @@
+﻿@model ProyectoWeb.Models.TbMovimientos
+    <div class="container">
+        <div class="span12">
+            <div class="widget">
+                <div class="widget-header">
+                    <h4>TbMovimientos</h4>
+                    </div>
+                        <div class="widget-content">
+                            <form asp-action="Create">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Folio" class="control-label"></label>
+                                    <input asp-for="Folio" class="span10 form-control" />
+                                    <span asp-validation-for="Folio" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Proyecto</label>
+                                    <select asp-for="IdProyecto" class="span10 form-control" asp-items="ViewBag.Proyectos"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Ingreso/Egreso</label>
+                                    <select asp-for="IngresoEgreso" class="span10 form-control" asp-items="ViewBag.IngEgre"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Fecha" class="control-label"></label>
+                                    <input asp-for="Fecha" class="span10 form-control" />
+                                    <span asp-validation-for="Fecha" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Rfc" class="control-label"></label>
+                                    <input asp-for="Rfc" class="span10 form-control" />
+                                    <span asp-validation-for="Rfc" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Empresa:</label>
+                                    <select asp-for="IdEmpresas" class="span10 form-control" asp-items="ViewBag.Empresas"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Persona: </label>
+                                    <select asp-for="IdPersonas" class="span10 form-control" asp-items="ViewBag.Personas"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Cuenta</label>
+                                    <select asp-for="IdCuenta" class="span10 form-control" asp-items="ViewBag.Cuentas"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Metodo de pago</label>
+                                    <select asp-for="IdMetodoPago" class="span10 form-control" asp-items="ViewBag.Metodos"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Forma de pago</label>
+                                    <select asp-for="IdFormPago" class="span10 form-control" asp-items="ViewBag.Formas"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Monedas</label>
+                                    <select asp-for="IdMonedas" class="span10 form-control" asp-items="ViewBag.Monedas"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label"></label>
+                                    <select asp-for="IdTipoComprobante" class="span10 form-control" asp-items="ViewBag.TipoComprobante"></select>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Concepto" class="control-label"></label>
+                                    <input asp-for="Concepto" class="span10 form-control" />
+                                    <span asp-validation-for="Concepto" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="PrecioUnitario" class="control-label"></label>
+                                    <input asp-for="PrecioUnitario" class="span10 form-control" />
+                                    <span asp-validation-for="PrecioUnitario" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Descuento" class="control-label"></label>
+                                    <input asp-for="Descuento" class="span10 form-control" />
+                                    <span asp-validation-for="Descuento" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Subtotal" class="control-label"></label>
+                                    <input asp-for="Subtotal" onkeypress="aplicaIVA();" id="subt" class="span10 form-control" />
+                                    <span asp-validation-for="Subtotal" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Iva" class="control-label"></label>
+                                    <select asp-for="Iva" id="iva" class="span10 form-control">
+                                        <option value="1">16%</option>
+                                        <option value="2">10%</option>
+                                        <option value="3">N/A%</option>
+                                    </select>
+                                    <span asp-validation-for="Iva" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="RetIva" class="control-label"></label>
+                                    <input asp-for="RetIva" id="riv" class="span10 form-control" />
+                                    <span asp-validation-for="RetIva" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="RetIsr" class="control-label"></label>
+                                    <input asp-for="RetIsr" id="ris" class="span10 form-control" />
+                                    <span asp-validation-for="RetIsr" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">IEPS</label>
+                                    <input asp-for="Ieps" id="ieps" onkeypress="aplicaIVA();" class="span10 form-control" />
+                                    <span asp-validation-for="Ieps" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Total" class="control-label"></label>
+                                    <input asp-for="Total" id="tota" class="span10 form-control" />
+                                    <span asp-validation-for="Total" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Uuid" class="control-label"></label>
+                                    <input asp-for="Uuid" class="span10 form-control" />
+                                    <span asp-validation-for="Uuid" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Impuestos Locales</label>
+                                    <input asp-for="ImpuestosLocales" onkeypress="aplicaIVA();" id="cnta" class="span10 form-control" />
+                                    <span asp-validation-for="ImpuestosLocales" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ret">Aplica Retención</label>
+                                    <input type="checkbox" id="ret" onchange="aplicaIVA();" name="ret">
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="RutaArchivo" class="control-label"></label>
+                                    <input asp-for="RutaArchivo" class="span10 form-control" />
+                                    <span asp-validation-for="RutaArchivo" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="subt">Subtotal:</label>
+                                    <input name="subt" id="neto" required="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Create" class="btn btn-primary" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    <div>
+                        <a asp-action="Index">Back to List</a>
+                    </div>
+

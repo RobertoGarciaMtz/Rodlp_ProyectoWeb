@@ -1,0 +1,201 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<ProyectoWeb.Models.TbMovimientos>
+    <div class="container">
+        <p>
+            <a class="btn btn-sm btn-success" asp-action="Create">Nuevo Movimiento</a>
+        </p>
+        <input id="controller" type="hidden" value="Movimientos" />
+        <table id="tableMovimientos" class="display nowrap" sstyle="width:100%">
+            <thead style="background: #00ba8b !important">
+                <tr>
+                    <th>
+                        Movimiento
+                    </th>
+                    <th>
+                        Folio
+                    </th>
+                    <th>
+                        Fecha
+                    </th>
+                    <th>
+                        Proyecto
+                    </th>
+                    <th>
+                        Empresa
+                    </th>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        RFC
+                    </th>
+                    <th>
+                        Cuenta
+                    </th>
+                    <th>
+                        Grupo
+                    </th>
+                    <th>
+                        Metodo de pago
+                    </th>
+                    <th>
+                        Forma de pago
+                    </th>
+                    <th>
+                        Moneda
+                    </th>
+                    <th>
+                        Tipo de comprobante
+                    </th>
+                    <th>
+                        Concepto
+                    </th>
+                    <th>
+                        Precio Unitario
+                    </th>
+                    <th>
+                        Descuento
+                    </th>
+                    <th>
+                        Subtotal
+                    </th>
+                    <th>
+                        IVA
+                    </th>
+                    <th>
+                        Ret. Iva
+                    </th>
+                    <th>
+                        Ret. ISR
+                    </th>
+                    <th>
+                        IEPS
+                    </th>
+                    <th>
+                        Impuestos Locales
+                    </th>
+                    <th>
+                        Total
+                    </th>
+                    <th>
+                        UUID
+                    </th>
+                    <th>
+                        Archivo
+                    </th>
+                    <th>
+                        Usuario
+                    </th>
+                    @if (Context.Session.GetInt32("tipoUsuario") == 1)
+                    {
+                        <th>
+                            Estado
+                        </th>
+                        <th></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdMovimiento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Folio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdProyectoNavigation.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdEmpresasNavigation.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdPersonasNavigation.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rfc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdCuentaNavigation.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdCuentaNavigation.GrupoNavigation.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdMetodoPagoNavigation.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdFormPagoNavigation.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdMonedasNavigation.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdTipoComprobanteNavigation.Descripcion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Concepto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PrecioUnitario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descuento)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subtotal)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Iva)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RetIva)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RetIsr)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ieps)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ImpuestosLocales)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Total)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Uuid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RutaArchivo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Usuario)
+                    </td>
+                    @if (Context.Session.GetInt32("tipoUsuario") == 1)
+                    {
+                        <td id="status-@Html.DisplayFor( modelItem => item.IdMovimiento )">
+                            @if (item.Status == 1)
+                            {
+                                <button value="@item.IdMovimiento" class="baja btn btn-success">Activo</button>
+                            }
+                            else if (item.Status == 2)
+                            {
+                                <button value="@item.IdMovimiento" class="alta btn btn-danger">Inactivo</button>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.IdMovimiento" class="btn btn-sm btn-primary"><i class="icon-edit"></i></a>
+                        </td>
+                    }
+                </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
